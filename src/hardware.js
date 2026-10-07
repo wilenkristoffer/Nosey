@@ -76,8 +76,11 @@ const PROFILES = {
   },
   cpu: {
     label: 'No GPU (processor only)',
-    // e4b over e2b: slower on the processor but clearly better text
-    models: { vision: 'gemma4:e4b', text: 'gemma4:e4b' },
+    // e2b over e4b: on the processor, reading the screenshot takes most of the time,
+    // and e2b starts its comment about 3.5 s sooner (9.5 s against 12.9 s on a 6-core
+    // desktop CPU) with comments that were just as specific. A comment only helps while
+    // you are still on that window.
+    models: { vision: 'gemma4:e2b', text: 'gemma4:e2b' },
     numCtx: 8192,
   },
 }

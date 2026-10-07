@@ -110,7 +110,7 @@ describe('applyProfile', () => {
     expect(applyProfile(cfg, undefined, info)).toBe('custom')
     expect(cfg.models.vision).toBe('my-vision')
     applyProfile(cfg, 'cpu', info)
-    expect(cfg.models.vision).toBe('gemma4:e4b')
+    expect(cfg.models.vision).toBe('gemma4:e2b')
     applyProfile(cfg, 'custom', info)
     expect(cfg.models).toMatchObject({ vision: 'my-vision', text: 'my-text' })
     expect(cfg.ollama.numCtx).toBe(4096)

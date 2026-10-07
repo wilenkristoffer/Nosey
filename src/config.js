@@ -19,7 +19,7 @@ module.exports = {
   //     'desktop' -- 12 GB+ VRAM: gemma4:12b
   //     'laptop'  -- 8-12 GB VRAM: gemma4:e4b
   //     'small'   -- 4-8 GB VRAM: gemma4:e2b
-  //     'cpu'     -- no usable GPU: gemma4:e4b on the processor
+  //     'cpu'     -- no usable GPU: gemma4:e2b on the processor
   //     'custom'  -- use models.vision / models.text and ollama.numCtx below as written
   //   Can be changed live in Settings (saved per user, overrides this default).
   // ---------------------------------------------------------------------------

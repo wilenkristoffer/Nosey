@@ -8,33 +8,35 @@ screen. Nothing is sent to the cloud.
 
 ## Requirements
 
-| | Minimum | Recommended |
-|---|---|---|
-| Windows | Windows 10 (64-bit) | Windows 11 |
-| RAM | 8 GB (GPU profiles) / 16 GB (no GPU) | 16 GB or more |
-| Disk | ~1 GB for the app and its dependencies + 5-8 GB for one model | 15 GB free |
-| Graphics | none (runs on the processor) | a GPU with 8 GB+ VRAM |
-| Software | Ollama 0.30.9 or newer, Node.js 20 or newer | Docker Desktop (optional, see below) |
+|          | Minimum                                                       | Recommended                          |
+| -------- | ------------------------------------------------------------- | ------------------------------------ |
+| Windows  | Windows 10 (64-bit)                                           | Windows 11                           |
+| RAM      | 8 GB (GPU profiles) / 16 GB (no GPU)                          | 16 GB or more                        |
+| Disk     | ~1 GB for the app and its dependencies + 5-8 GB for one model | 15 GB free                           |
+| Graphics | none (runs on the processor)                                  | a GPU with 8 GB+ VRAM                |
+| Software | Ollama 0.30.9 or newer, Node.js 20 or newer                   | Docker Desktop (optional, see below) |
 
 Nosey picks a **device profile** from the graphics card it finds (see
 [Device profiles](#device-profiles)). Each profile uses one model that reads the screenshot
 and writes the comment itself:
 
-| Your graphics card | Profile | Model | Download | VRAM in use |
-|---|---|---|---|---|
-| 12 GB VRAM or more | `desktop` | `gemma4:12b` | 7.6 GB | about 9 GB |
-| 8-12 GB VRAM | `laptop` | `gemma4:e4b` | 6.6 GB | about 5.6 GB |
-| 4-8 GB VRAM | `small` | `gemma4:e2b` | 4.6 GB | about 3.9 GB |
-| no GPU, integrated graphics, or under 4 GB | `cpu` | `gemma4:e4b` on the processor | 6.6 GB | - (uses RAM) |
+| Your graphics card                         | Profile   | Model                         | Download | VRAM in use  |
+| ------------------------------------------ | --------- | ----------------------------- | -------- | ------------ |
+| 12 GB VRAM or more                         | `desktop` | `gemma4:12b`                  | 7.6 GB   | 8.8 GB       |
+| 8-12 GB VRAM                               | `laptop`  | `gemma4:e4b`                  | 6.6 GB   | 5.8 GB       |
+| 4-8 GB VRAM                                | `small`   | `gemma4:e2b`                  | 4.6 GB   | 4.2 GB       |
+| no GPU, integrated graphics, or under 4 GB | `cpu`     | `gemma4:e2b` on the processor | 4.6 GB   | - (uses RAM) |
 
 All profiles also need the small embedding model `nomic-embed-text` (0.3 GB) for comment
 memory. Windows itself uses 1-2 GB of the card that drives your display, which is why the
 tiers leave headroom.
 
-**Without a GPU** everything still works, only slower: the model runs on the processor and
-needs roughly 6-8 GB of free RAM (an estimate, not measured). A comment can take from several seconds to a minute or more,
-depending on the processor. Laptops on battery are slower still. Nosey only comments when you
-switch windows, so this is usable, but a GPU makes it feel live.
+With a graphics card, a comment starts appearing about half a second after a window switch.
+**Without a GPU** everything still works, only slower: on a 6-core desktop processor the first
+word comes after about 10 seconds (most of it is the model reading the screenshot), and laptop
+processors are usually slower; on battery, slower still. The model then uses roughly 6 GB of
+RAM (an estimate). Nosey only comments when you switch windows, so this is usable, but a GPU
+makes it feel live.
 
 ### NVIDIA, AMD and Intel
 
@@ -100,11 +102,11 @@ Manager's "Dedicated GPU memory" if you want the real number.)
 `device.profile` in `src/config.js` (and **Device Profile** in Settings, which is remembered
 per user) decides which model Nosey uses:
 
-| Value | Meaning |
-|---|---|
-| `auto` (default) | Detect the graphics card and pick `desktop`, `laptop`, `small` or `cpu` |
-| `desktop`, `laptop`, `small`, `cpu` | Use that profile regardless of the hardware |
-| `custom` | Use `models.vision`, `models.text` and `ollama.numCtx` in `src/config.js` as written |
+| Value                               | Meaning                                                                              |
+| ----------------------------------- | ------------------------------------------------------------------------------------ |
+| `auto` (default)                    | Detect the graphics card and pick `desktop`, `laptop`, `small` or `cpu`              |
+| `desktop`, `laptop`, `small`, `cpu` | Use that profile regardless of the hardware                                          |
+| `custom`                            | Use `models.vision`, `models.text` and `ollama.numCtx` in `src/config.js` as written |
 
 Detection reads the display adapters and their dedicated memory from the Windows registry,
 ignores virtual and remote-desktop adapters, treats integrated graphics as "no GPU", and uses
@@ -125,43 +127,60 @@ model write the comment. That needs both models in VRAM at once, e.g. `qwen2.5vl
 
 ### How the profiles were chosen
 
-VRAM figures are measured while generating, with Windows' "Dedicated GPU memory" counter and a
-16k context (Nosey uses 8k, so it needs the same or less). On a 16 GB desktop GPU, on a long
-text task: `gemma4:12b` 50 tokens/s, `gemma4:e4b` 105 tokens/s, `gemma4:e2b` 122 tokens/s. On a
-6-core desktop processor only: `gemma4:e4b` 11.5 tokens/s, `gemma4:e2b` 21 tokens/s. `gemma4:12b`
-gives the best text; `e4b` is good but wordier; `e2b` gets the main points with more mistakes.
-For the `cpu` profile, `e4b` was chosen over `e2b` for quality despite being slower.
-`gemma3:4b` was tried and ruled out: it invented details that were not in its input.
+Measured with Nosey's own prompts (comment and Ask Nosey, one model, `num_ctx` 8192) on 10
+screenshots: a code editor, tutorial pages, a quiz, code next to its preview, a video page, a
+blank capture and an almost black one. On a 16 GB desktop GPU and a 6-core desktop processor:
 
-These numbers come from a text task, not from Nosey's screenshots. How well each model reads
-screens, and how fast a comment appears with an image, has not been measured yet.
+| Model          | VRAM in use          | First word of a comment, GPU | First word, processor only | Ask Nosey: right heading |
+| -------------- | -------------------- | ---------------------------- | -------------------------- | ------------------------ |
+| `gemma4:12b`   | 8.8 GB               | 0.7 s                        | -                          | 9/10                     |
+| `gemma4:e4b`   | 5.8 GB               | 0.5 s                        | 12.9 s                     | 10/10                    |
+| `gemma4:e2b`   | 4.2 GB               | 0.4 s                        | 9.5 s                      | 9/10                     |
+| `qwen2.5vl:7b` | the whole 16 GB card | 7.7 s                        | -                          | 9/10                     |
+
+VRAM is the increase in Windows' "Dedicated GPU memory" counter while the model worked.
+
+- **gemma4 for every tier.** All three read headings and code correctly and comment on what is
+  really on screen, and the first word comes in under a second on a GPU. `12b` writes the
+  wittiest, most specific comments but misreads small text now and then; `e4b` and `e2b` are
+  close behind (e2b even quoted `cursor: pointer;` from the code on screen).
+- **qwen2.5vl is not used.** Large screenshots become many image tokens for qwen: the 7b model
+  filled a 16 GB card and took 7.7 s before its first word. Its answers were terse and it added
+  emoji. `qwen2.5vl:3b` wandered off the screen in its comments ("That's really old school,
+  isn't it?").
+- **`cpu` uses `e2b`.** On the processor, reading the screenshot takes most of the time:
+  `e2b` starts after 9.5 s and `e4b` after 12.9 s, with comments that were just as specific.
+- With `think: false` (the default), gemma4 answers directly; no thinking text appeared in any
+  of the answers.
+
+Not measured yet: real laptops, NVIDIA and Intel cards, and RAM use on the processor.
 
 ## Privacy
 
 Everything runs on your computer. Nosey only talks to Ollama, PostgreSQL and Jaeger on
 `localhost`. Still, it handles what is on your screen, so it is worth knowing where things end up:
 
-| What | Where | Contents |
-|---|---|---|
-| Screenshots | memory only (by default) | Sent to Ollama, not saved |
-| Debug files (`debug: true` in `src/config.js`, off by default) | `%APPDATA%\Nosey\debug` | Screenshots, descriptions, comments |
-| Comment history | PostgreSQL in Docker (volume `nosey_pgdata`) | Window titles, screen descriptions, comments, your Ask Nosey questions |
-| Traces | Jaeger in Docker (in memory) | Window titles and comment text |
-| Settings | `%APPDATA%\Nosey\settings.json` | Your choices in Settings |
+| What                                                           | Where                                        | Contents                                                               |
+| -------------------------------------------------------------- | -------------------------------------------- | ---------------------------------------------------------------------- |
+| Screenshots                                                    | memory only (by default)                     | Sent to Ollama, not saved                                              |
+| Debug files (`debug: true` in `src/config.js`, off by default) | `%APPDATA%\Nosey\debug`                      | Screenshots, descriptions, comments                                    |
+| Comment history                                                | PostgreSQL in Docker (volume `nosey_pgdata`) | Window titles, screen descriptions, comments, your Ask Nosey questions |
+| Traces                                                         | Jaeger in Docker (in memory)                 | Window titles and comment text                                         |
+| Settings                                                       | `%APPDATA%\Nosey\settings.json`              | Your choices in Settings                                               |
 
 To delete the history: `docker compose down -v` (removes the database volume). DRM-protected
 video (Netflix and similar) shows up as black in screenshots; that is Windows, not Nosey.
 
 ## Development
 
-| Command | What it does |
-|---|---|
-| `npm start` | Run the app (starts the Docker services first if Docker is available) |
-| `npm test` | Unit tests (vitest) |
-| `npm run lint` | ESLint |
-| `npm run format` / `npm run format:check` | Prettier |
-| `npm run monitor` | Local dashboard over the Jaeger traces (http://localhost:4040) |
-| `npm run package` / `npm run make` | Build the app / a Windows installer (needs `assets/icon.ico`) |
+| Command                                   | What it does                                                          |
+| ----------------------------------------- | --------------------------------------------------------------------- |
+| `npm start`                               | Run the app (starts the Docker services first if Docker is available) |
+| `npm test`                                | Unit tests (vitest)                                                   |
+| `npm run lint`                            | ESLint                                                                |
+| `npm run format` / `npm run format:check` | Prettier                                                              |
+| `npm run monitor`                         | Local dashboard over the Jaeger traces (http://localhost:4040)        |
+| `npm run package` / `npm run make`        | Build the app / a Windows installer (needs `assets/icon.ico`)         |
 
 Code layout: `src/main.js` (Electron main process: capture, Ollama pipeline, IPC),
 `src/ollama-client.js` (prompts and Ollama calls), `src/hardware.js` (device profiles),
