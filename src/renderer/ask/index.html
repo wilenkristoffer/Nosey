@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'"
+    />
+    <title>Nosey Ask</title>
+    <style>
+      :root {
+        --bg: #0d1117;
+        --surface: #161b22;
+        --border: #30363d;
+        --text: #e6edf3;
+        --muted: #8b949e;
+        --accent: #58a6ff;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        font-size: 13px;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        padding: 12px 14px;
+        gap: 8px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        overflow: hidden;
+      }
+
+      #label {
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--muted);
+      }
+
+      #row {
+        display: flex;
+        gap: 8px;
+      }
+
+      #question {
+        flex: 1;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        color: var(--text);
+        font-size: 13px;
+        font-family: inherit;
+        padding: 8px 10px;
+      }
+
+      #question:focus {
+        outline: none;
+        border-color: var(--accent);
+      }
+
+      #send {
+        background: var(--accent);
+        border: none;
+        border-radius: 6px;
+        color: #0d1117;
+        font-size: 13px;
+        font-weight: 600;
+        font-family: inherit;
+        padding: 8px 14px;
+        cursor: pointer;
+      }
+
+      #send:hover {
+        filter: brightness(1.1);
+      }
+
+      #hint {
+        font-size: 11px;
+        color: var(--muted);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="label">Ask Nosey</div>
+    <div id="row">
+      <input id="question" type="text" placeholder="What do you want to know?" autofocus />
+      <button id="send">Send</button>
+    </div>
+    <div id="hint">Enter to send &middot; Esc to close</div>
+    <script src="ask.js"></script>
+  </body>
+</html>

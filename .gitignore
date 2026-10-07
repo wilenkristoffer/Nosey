@@ -1,0 +1,52 @@
+node_modules/
+out/
+.webpack/
+coverage/
+*.log
+.DS_Store
+Thumbs.db
+
+# Captured screen data: screenshots, vision descriptions and comments from
+# debug mode. Never commit these -- they show whatever was on the screen.
+debug/
+captures/
+screenshots/
+*.jpg
+*.jpeg
+*.png
+!assets/**/*.png
+
+# Local data, caches and settings
+*.db
+*.sqlite
+*.sqlite3
+*.dump
+*.sql.gz
+pgdata/
+traces/
+settings.json
+.cache/
+.vite/
+.vitest/
+
+# Models (Ollama keeps its own; never commit weights)
+*.gguf
+*.bin
+*.safetensors
+models/
+
+# Secrets and local overrides
+.env
+.env.*
+*.local.js
+
+# Editor and assistant state
+.vscode/
+.idea/
+.claude/
+
+# Developer notes, kept private
+CLAUDE.md
+PLAN.md
+PLAN_MEMORY.md
+phases/

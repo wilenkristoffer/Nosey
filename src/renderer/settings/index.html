@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'"
+    />
+    <title>Nosey Settings</title>
+    <style>
+      :root {
+        --bg: #0d1117;
+        --surface: #161b22;
+        --surface2: #1c2128;
+        --border: #30363d;
+        --text: #e6edf3;
+        --muted: #8b949e;
+        --blue: #58a6ff;
+        --green: #3fb950;
+        --accent: #58a6ff;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        font-size: 13px;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+
+      #header {
+        padding: 16px 20px;
+        border-bottom: 1px solid var(--border);
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--muted);
+        flex-shrink: 0;
+      }
+
+      #content {
+        flex: 1;
+        overflow-y: auto;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+      }
+
+      .section-label {
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--muted);
+        margin-bottom: 10px;
+      }
+
+      /* Persona cards */
+      #persona-list {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .persona-card {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 10px 12px;
+        border-radius: 6px;
+        border: 1px solid transparent;
+        cursor: pointer;
+        transition:
+          background 0.1s,
+          border-color 0.1s;
+      }
+
+      .persona-card:hover {
+        background: var(--surface);
+      }
+
+      .persona-card.selected {
+        background: var(--surface);
+        border-color: var(--accent);
+      }
+
+      .persona-radio {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        border: 2px solid var(--border);
+        flex-shrink: 0;
+        margin-top: 2px;
+        transition:
+          border-color 0.1s,
+          background 0.1s;
+      }
+
+      .persona-card.selected .persona-radio {
+        border-color: var(--accent);
+        background: var(--accent);
+        box-shadow: inset 0 0 0 3px var(--surface);
+      }
+
+      .persona-info {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        min-width: 0;
+      }
+
+      .persona-name {
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--text);
+      }
+
+      .persona-desc {
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      /* Controls row */
+      .controls-row {
+        display: flex;
+        gap: 16px;
+        align-items: flex-end;
+      }
+
+      .control-group {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        flex: 1;
+      }
+
+      .control-group.shrink {
+        flex: 0 0 auto;
+      }
+
+      select {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        color: var(--text);
+        font-size: 13px;
+        padding: 7px 10px;
+        cursor: pointer;
+        width: 100%;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%238b949e'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 10px center;
+        padding-right: 28px;
+      }
+
+      select:focus {
+        outline: none;
+        border-color: var(--accent);
+      }
+
+      .toggle-group {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .toggle-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 7px 0;
+      }
+
+      .toggle-label {
+        font-size: 13px;
+        color: var(--text);
+      }
+
+      .field-label {
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      /* Custom toggle switch */
+      .switch {
+        position: relative;
+        display: inline-block;
+        width: 36px;
+        height: 20px;
+        flex-shrink: 0;
+      }
+
+      .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        inset: 0;
+        background: var(--border);
+        border-radius: 20px;
+        transition: background 0.2s;
+      }
+
+      .slider::before {
+        content: '';
+        position: absolute;
+        width: 14px;
+        height: 14px;
+        left: 3px;
+        bottom: 3px;
+        background: white;
+        border-radius: 50%;
+        transition: transform 0.2s;
+      }
+
+      .switch input:checked + .slider {
+        background: var(--green);
+      }
+
+      .switch input:checked + .slider::before {
+        transform: translateX(16px);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="header">Nosey Settings</div>
+    <div id="content">
+      <div>
+        <div class="section-label">Mode</div>
+        <div id="mode-list"><div style="color: var(--muted)">Loading...</div></div>
+      </div>
+
+      <div>
+        <div class="section-label">Personality</div>
+        <div id="persona-list"><div style="color: var(--muted)">Loading...</div></div>
+      </div>
+
+      <div>
+        <div class="section-label">Device Profile</div>
+        <div class="control-group">
+          <select id="profile-select"></select>
+          <div id="hardware-info" class="field-label"></div>
+        </div>
+      </div>
+
+      <div>
+        <div class="section-label">Capture</div>
+        <div class="controls-row">
+          <div class="control-group">
+            <label class="field-label" for="interval-select">Window Change Check</label>
+            <select id="interval-select">
+              <option value="3000">Every 3 seconds</option>
+              <option value="5000">Every 5 seconds</option>
+              <option value="10000">Every 10 seconds</option>
+              <option value="30000">Every 30 seconds</option>
+            </select>
+          </div>
+          <div class="toggle-group control-group shrink">
+            <div class="toggle-row">
+              <label class="switch">
+                <input type="checkbox" id="active-toggle" checked />
+                <span class="slider"></span>
+              </label>
+              <span class="toggle-label">Active</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="section-label">Ask Nosey Capture</div>
+        <div class="control-group">
+          <select id="ask-capture-select">
+            <option value="fullscreen">Full screen (sees everything at once)</option>
+            <option value="window">One window (5s countdown to pick it, sharper detail)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <script src="settings.js"></script>
+  </body>
+</html>

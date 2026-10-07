@@ -1,0 +1,26 @@
+# Ports are bound to localhost only: the database holds window titles and screen
+# descriptions, and its password is a fixed local default.
+services:
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    ports:
+      - "127.0.0.1:16686:16686"
+      - "127.0.0.1:4318:4318"
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
+    restart: unless-stopped
+
+  postgres:
+    image: ankane/pgvector:latest
+    ports:
+      - "127.0.0.1:5432:5432"
+    environment:
+      POSTGRES_DB: nosey
+      POSTGRES_USER: nosey
+      POSTGRES_PASSWORD: nosey
+    volumes:
+      - nosey_pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  nosey_pgdata:

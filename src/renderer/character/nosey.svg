@@ -1,0 +1,167 @@
+<svg id="nosey-character" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 140" width="100%" height="100%">
+
+  <defs>
+    <radialGradient id="skinGrad" cx="38%" cy="30%" r="75%">
+      <stop offset="0%" stop-color="#FFE3C4"/>
+      <stop offset="55%" stop-color="#F6C79B"/>
+      <stop offset="100%" stop-color="#D89F72"/>
+    </radialGradient>
+    <radialGradient id="earGrad" cx="35%" cy="30%" r="75%">
+      <stop offset="0%" stop-color="#FBD3A8"/>
+      <stop offset="100%" stop-color="#E0A47A"/>
+    </radialGradient>
+    <linearGradient id="coatGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#3E4F60"/>
+      <stop offset="55%" stop-color="#2C3A47"/>
+      <stop offset="100%" stop-color="#18232C"/>
+    </linearGradient>
+    <linearGradient id="coatShadeGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#243139"/>
+      <stop offset="100%" stop-color="#141C22"/>
+    </linearGradient>
+    <linearGradient id="shirtGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#E4E0D4"/>
+    </linearGradient>
+    <linearGradient id="tieGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#A8321F"/>
+      <stop offset="100%" stop-color="#6B1810"/>
+    </linearGradient>
+    <linearGradient id="hatGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#44576A"/>
+      <stop offset="100%" stop-color="#20303C"/>
+    </linearGradient>
+    <linearGradient id="brassGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F0D48A"/>
+      <stop offset="100%" stop-color="#9C7A2E"/>
+    </linearGradient>
+    <radialGradient id="lensGrad" cx="35%" cy="30%" r="75%">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.55)"/>
+      <stop offset="40%" stop-color="rgba(180,220,255,0.28)"/>
+      <stop offset="100%" stop-color="rgba(120,160,200,0.15)"/>
+    </radialGradient>
+    <radialGradient id="blushGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#E8896A" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#E8896A" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="irisGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#0D0D0D"/>
+      <stop offset="45%" stop-color="#0D0D0D"/>
+      <stop offset="60%" stop-color="#5B3A29"/>
+      <stop offset="100%" stop-color="#2E1B12"/>
+    </radialGradient>
+    <radialGradient id="noseGrad" cx="35%" cy="25%" r="75%">
+      <stop offset="0%" stop-color="#F0A87E"/>
+      <stop offset="100%" stop-color="#D07E56"/>
+    </radialGradient>
+    <linearGradient id="gloveGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#32324A"/>
+      <stop offset="100%" stop-color="#111018"/>
+    </linearGradient>
+
+    <filter id="character-outline" x="-30%" y="-30%" width="160%" height="160%">
+      <feMorphology in="SourceAlpha" operator="dilate" radius="1.6" result="dilated"/>
+      <feFlood flood-color="#0B0F13" flood-opacity="0.9" result="outline-color"/>
+      <feComposite in="outline-color" in2="dilated" operator="in" result="outline-shape"/>
+      <feMerge>
+        <feMergeNode in="outline-shape"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <g id="nosey-silhouette" filter="url(#character-outline)">
+
+  <g id="nosey-arm-left">
+    <path d="M25,72 Q17,90 13,103 Q12,110 16,113 Q22,115 23,108 Q27,94 33,76 Z" fill="url(#coatGrad)"/>
+    <path d="M9,109 Q8,103 14,102 Q20,103 20,110 Q20,117 14,118 Q8,117 9,109 Z" fill="url(#gloveGrad)"/>
+    <ellipse cx="18" cy="107" rx="2.4" ry="2" fill="url(#gloveGrad)"/>
+    <path d="M11,107 Q14,109 11,112" stroke="#0A0A12" stroke-width="0.8" fill="none" opacity="0.6" stroke-linecap="round"/>
+    <path d="M15,106 Q18,108 15,111" stroke="#0A0A12" stroke-width="0.8" fill="none" opacity="0.6" stroke-linecap="round"/>
+  </g>
+
+  <g id="nosey-body">
+    <path d="M23,68 L77,68 L81,138 L19,138 Z" fill="url(#coatGrad)"/>
+    <path d="M23,68 L40,68 L37,96 L29,96 Z" fill="url(#coatShadeGrad)"/>
+    <path d="M77,68 L60,68 L63,96 L71,96 Z" fill="url(#coatShadeGrad)"/>
+    <path d="M40,68 L60,68 L57,89 L50,92 L43,89 Z" fill="url(#shirtGrad)"/>
+    <path d="M46,68 L54,68 L52,82 L50,85 L48,82 Z" fill="url(#tieGrad)"/>
+    <circle cx="50" cy="99" r="2.5" fill="url(#brassGrad)"/>
+    <circle cx="50" cy="110" r="2.5" fill="url(#brassGrad)"/>
+    <path d="M50,68 L48,138" stroke="#12191F" stroke-width="1.2" opacity="0.35" fill="none"/>
+    <path d="M31,74 Q28,90 26,110" stroke="#141C22" stroke-width="1" opacity="0.3" fill="none"/>
+    <path d="M69,74 Q72,90 74,110" stroke="#141C22" stroke-width="1" opacity="0.3" fill="none"/>
+  </g>
+
+  <g id="nosey-arm-right">
+    <path d="M76,70 Q87,84 84,110 L80,113 Q79,90 68,72 Z" fill="url(#coatGrad)"/>
+    <path d="M76,110 Q75,103 81,102 Q88,103 88,110 Q88,118 81,119 Q75,118 76,110 Z" fill="url(#gloveGrad)"/>
+    <ellipse cx="77" cy="106" rx="2.4" ry="2" fill="url(#gloveGrad)"/>
+    <path d="M80,105 Q83,108 80,111" stroke="#0A0A12" stroke-width="0.8" fill="none" opacity="0.6" stroke-linecap="round"/>
+    <path d="M84,106 Q87,108 84,111" stroke="#0A0A12" stroke-width="0.8" fill="none" opacity="0.6" stroke-linecap="round"/>
+    <g id="nosey-magnifier">
+      <path d="M70,100 Q72,106 74,111" stroke="url(#gloveGrad)" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <rect x="60" y="85.5" width="16" height="7" rx="2.5" fill="url(#gloveGrad)" stroke="#4A4A55" stroke-width="0.6"/>
+      <circle cx="66" cy="83.5" r="1.6" fill="#20202A" stroke="#4A4A55" stroke-width="0.6"/>
+      <circle cx="61" cy="89" r="7" fill="url(#gloveGrad)" stroke="#4A4A55" stroke-width="1"/>
+      <circle cx="61" cy="89" r="4.3" fill="url(#lensGrad)"/>
+      <circle cx="75" cy="89" r="7" fill="url(#gloveGrad)" stroke="#4A4A55" stroke-width="1"/>
+      <circle cx="75" cy="89" r="4.3" fill="url(#lensGrad)"/>
+      <circle cx="58.5" cy="86" r="1" fill="rgba(255,255,255,0.5)"/>
+      <circle cx="72.5" cy="86" r="1" fill="rgba(255,255,255,0.5)"/>
+    </g>
+  </g>
+
+  <g id="nosey-head">
+    <circle cx="28" cy="51" r="5" fill="url(#earGrad)"/>
+    <circle cx="28" cy="51" r="3" fill="#D2895F"/>
+    <circle cx="72" cy="51" r="5" fill="url(#earGrad)"/>
+    <circle cx="72" cy="51" r="3" fill="#D2895F"/>
+    <circle cx="50" cy="51" r="22" fill="url(#skinGrad)"/>
+
+    <ellipse cx="40" cy="55" rx="6" ry="4.5" fill="url(#blushGrad)"/>
+    <ellipse cx="60" cy="55" rx="6" ry="4.5" fill="url(#blushGrad)"/>
+
+    <g id="nosey-eyes">
+      <circle cx="40" cy="47" r="7" fill="#FFFEFA"/>
+      <circle cx="60" cy="47" r="7" fill="#FFFEFA"/>
+      <circle id="left-pupil" cx="40" cy="48" r="3" fill="url(#irisGrad)"/>
+      <circle id="right-pupil" cx="60" cy="48" r="3" fill="url(#irisGrad)"/>
+      <circle id="left-eye-glint" cx="37.5" cy="45.5" r="1" fill="white" opacity="0.8"/>
+      <circle id="right-eye-glint" cx="57.5" cy="45.5" r="1" fill="white" opacity="0.8"/>
+      <rect id="left-eyelid" x="33" y="40" width="14" height="14" rx="1" fill="url(#skinGrad)"/>
+      <rect id="right-eyelid" x="53" y="40" width="14" height="14" rx="1" fill="url(#skinGrad)"/>
+      <path id="left-eyebrow" d="M33,38 Q40,34 47,38" stroke="#3D2B1F" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+      <path id="right-eyebrow" d="M53,38 Q60,34 67,38" stroke="#3D2B1F" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+    </g>
+
+    <ellipse cx="50" cy="55" rx="2.5" ry="2" fill="url(#noseGrad)"/>
+    <circle cx="49" cy="53.5" r="0.6" fill="rgba(255,255,255,0.6)"/>
+
+    <g id="nosey-mouth">
+      <ellipse cx="50" cy="60" rx="6" ry="0.9" fill="#7A3325"/>
+    </g>
+    <path d="M43.5,59.2 Q50,63.2 56.5,59.2" stroke="#A8402A" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+
+    <g id="nosey-hat">
+      <path d="M30,33 L30,12 Q30,5 50,5 Q70,5 70,12 L70,33 Z" fill="url(#hatGrad)"/>
+      <ellipse cx="50" cy="33" rx="30" ry="7" fill="#1E2D39"/>
+      <ellipse cx="50" cy="32" rx="30" ry="6" fill="url(#hatGrad)"/>
+      <rect x="30" y="26" width="40" height="6" fill="#111827"/>
+      <circle cx="69" cy="29" r="2" fill="url(#brassGrad)"/>
+      <path d="M32,10 Q50,4 68,10" stroke="rgba(255,255,255,0.18)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <path d="M22,29 Q50,24 78,29" stroke="rgba(255,255,255,0.15)" stroke-width="1" fill="none" stroke-linecap="round"/>
+    </g>
+
+    <g id="nosey-thought-bubble" opacity="0">
+      <circle cx="63" cy="25.5" r="1.4" fill="rgba(255,255,255,0.92)" stroke="rgba(20,25,30,0.35)" stroke-width="0.6"/>
+      <circle cx="59" cy="21" r="2.1" fill="rgba(255,255,255,0.92)" stroke="rgba(20,25,30,0.4)" stroke-width="0.7"/>
+      <ellipse cx="49" cy="14.5" rx="12.5" ry="6.5" fill="rgba(255,255,255,0.95)" stroke="rgba(20,25,30,0.45)" stroke-width="1"/>
+      <circle id="thought-dot-1" cx="43.5" cy="14.5" r="1.5" fill="#2C3A47"/>
+      <circle id="thought-dot-2" cx="49" cy="14.5" r="1.5" fill="#2C3A47"/>
+      <circle id="thought-dot-3" cx="54.5" cy="14.5" r="1.5" fill="#2C3A47"/>
+    </g>
+  </g>
+  </g>
+
+</svg>
