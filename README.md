@@ -123,7 +123,7 @@ Other settings in `src/config.js` under `ollama`:
 With `custom` you can use any vision model in Ollama. Use the same name for `vision` and `text`
 for one model, or two different names to have a vision model describe the screen and a text
 model write the comment. That needs both models in VRAM at once, e.g. `qwen2.5vl:7b` +
-`qwen2.5:14b` needs about 16 GB.
+`qwen2.5:14b` needs about 16 GB. It was measured and is not recommended: see below.
 
 ### How the profiles were chosen
 
@@ -152,6 +152,22 @@ VRAM is the increase in Windows' "Dedicated GPU memory" counter while the model 
   `e2b` starts after 9.5 s and `e4b` after 12.9 s, with comments that were just as specific.
 - With `think: false` (the default), gemma4 answers directly; no thinking text appeared in any
   of the answers.
+
+**One model, not two.** The two-model flow (one model describes the screenshot, another
+writes the comment from that description) was measured on the same screenshots:
+
+| Flow                                          | First word of a comment | VRAM in use        |
+| --------------------------------------------- | ----------------------- | ------------------ |
+| One model: `gemma4:12b` / `e4b` / `e2b`       | 0.7 / 0.5 / 0.4 s       | 8.8 / 5.8 / 4.2 GB |
+| `gemma4:e4b` describes, `gemma4:12b` comments | 3.3 s                   | 12.5 GB            |
+| `gemma4:12b` describes and comments           | 5.7 s                   | 8.7 GB             |
+| `gemma4:e4b` describes and comments           | 1.9 s                   | 5.6 GB             |
+| `gemma4:e2b` describes, `gemma4:e4b` comments | 2.0 s                   | 9.5 GB             |
+
+The comments were not better: the one-model comments already quote what is on screen, and in
+the two-model flow a mistake in the description is passed on (one invented a heading and a CSS
+value that were not on the screen). Describing first only adds waiting and memory, so every
+profile uses one model. The two-model flow remains available with `custom`.
 
 Not measured yet: real laptops, NVIDIA and Intel cards, and RAM use on the processor.
 
